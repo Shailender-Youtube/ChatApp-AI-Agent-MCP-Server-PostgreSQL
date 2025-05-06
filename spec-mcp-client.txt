@@ -1,0 +1,75 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "MCP Query Postgres Tool",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "XXXXXXXX"
+    }
+  ],
+  "paths": {
+    "/query_postgres": {
+      "post": {
+        "operationId": "queryPostgres",
+        "description": "Execute SQL against PostgreSQL via MCP proxy",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "description": "SQL statement to run, e.g. SELECT COUNT(*) FROM orders;"
+                  }
+                },
+                "required": [
+                  "query"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Rows returned by the SQL query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rows": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      },
+                      "description": "List of JSON objects representing each row"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error executing SQL",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "detail": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
